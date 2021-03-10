@@ -5,11 +5,13 @@
  */
 package mx.unam.aragon.fes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Feer´ SI
  */
-public class Empleado extends Persona{
+public class Empleado extends Persona implements Serializable{
     private int numeroEmpleado;
     private String departamento;
     private float sueldo;

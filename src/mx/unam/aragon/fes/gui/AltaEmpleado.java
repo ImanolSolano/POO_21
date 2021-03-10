@@ -5,9 +5,11 @@
  */
 package mx.unam.aragon.fes.gui;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import mx.unam.aragon.fes.Direccion;
 import mx.unam.aragon.fes.Empleado;
+import mx.unam.aragon.fes.persistencia.ArchivoEmpleado;
 
 /**
  *
@@ -351,6 +353,11 @@ public class AltaEmpleado extends javax.swing.JFrame {
         jButton1.setText("Cargar");
 
         jButton2.setText("Guardar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText(">>");
 
@@ -393,11 +400,10 @@ public class AltaEmpleado extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(254, 254, 254)
@@ -460,7 +466,7 @@ public class AltaEmpleado extends javax.swing.JFrame {
         if(confirmar == 0){
             Lista.add(emp);
         }else{
-            JOptionPane.showMessageDialog(this , "¡¡No se guardaron los datos del empleado !!" );
+            JOptionPane.showMessageDialog(this , "¡¡No se guardaron los datos del empleado!!" );
         }
         
         System.out.println("Empleados en el ARREGLO = "+ Lista.size());
@@ -476,6 +482,21 @@ public class AltaEmpleado extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        ArchivoEmpleado Persistencia = new ArchivoEmpleado();
+        JFileChooser jfc = new JFileChooser();
+        jfc.showSaveDialog(this);
+        String archivo = jfc.getSelectedFile().getAbsolutePath();
+        System.out.println("Ruta seleccionada es: "+archivo);
+        Persistencia.setArchivo(archivo);
+        try {
+            Persistencia.GuardarEmpleados(Lista);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
 
     private void limpiarFormulario(){
       this.jTextField1.setText("");

@@ -5,6 +5,10 @@
  */
 package mx.unam.aragon.fes.persistencia;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import mx.unam.aragon.fes.Empleado;
 
@@ -32,15 +36,36 @@ public class ArchivoEmpleado {
     
     public void GuardarEmpleados(ArrayList<Empleado> datos){
     //Aquí el código para grabar el disco duro
+       try {
+            ObjectOutputStream fSalida = new ObjectOutputStream(
+                    new FileOutputStream(Archivo));
+
+            fSalida.writeObject(datos);
+            fSalida.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     
     }
     
     public ArrayList<Empleado> leerEmpleados(){
     ArrayList<Empleado> tmp=null;
-    
-    
-    
-    return tmp;
+        try {
+            ObjectInputStream fLectura = new ObjectInputStream(
+                    new FileInputStream(Archivo));
+
+            tmp = (ArrayList<Empleado>) fLectura.readObject();
+            if (tmp == null) {
+                System.out.println("No hay nada");
+            } else {
+                System.out.println("Nombre" + tmp.size());
+            }
+            fLectura.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error" + ex.toString());
+        }
+        return tmp;
     }
     
-    }
+}
