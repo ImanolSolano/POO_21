@@ -17,6 +17,7 @@ import mx.unam.aragon.fes.persistencia.ArchivoEmpleado;
  */
 public class AltaEmpleado extends javax.swing.JFrame {
     private ArrayList<Empleado> Lista;
+    private int indice;
 
     /**
      * Creates new form AltaEmpleado
@@ -24,6 +25,7 @@ public class AltaEmpleado extends javax.swing.JFrame {
     public AltaEmpleado() {
         initComponents();
         Lista=new ArrayList<Empleado>();
+        indice = 0;
     }
 
     /**
@@ -77,6 +79,7 @@ public class AltaEmpleado extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 102));
@@ -337,7 +340,7 @@ public class AltaEmpleado extends javax.swing.JFrame {
                     .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
@@ -351,6 +354,11 @@ public class AltaEmpleado extends javax.swing.JFrame {
         jLabel5.setText("Favor de llenar TODOS los campos sin excepcion y llenarlos de forma correcta, gracias. ");
 
         jButton1.setText("Cargar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Guardar");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -358,8 +366,18 @@ public class AltaEmpleado extends javax.swing.JFrame {
                 jButton2MouseClicked(evt);
             }
         });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText(">>");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
 
         jButton4.setText("<<");
 
@@ -377,6 +395,9 @@ public class AltaEmpleado extends javax.swing.JFrame {
                 jButton6MouseClicked(evt);
             }
         });
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -409,6 +430,10 @@ public class AltaEmpleado extends javax.swing.JFrame {
                         .addGap(254, 254, 254)
                         .addComponent(jLabel4)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addGap(316, 316, 316))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,8 +443,10 @@ public class AltaEmpleado extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -498,6 +525,62 @@ public class AltaEmpleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        int respuesta = JOptionPane.showConfirmDialog(this, "Esta acción borrará los datos actuales ¿Estás seguro de continuar?");
+        if(respuesta == 0){
+            ArchivoEmpleado persistencia = new ArchivoEmpleado();
+            JFileChooser jfc = new JFileChooser();
+            jfc.showOpenDialog(this);
+            persistencia.setArchivo(jfc.getSelectedFile().getAbsolutePath());
+            this.Lista = persistencia.leerEmpleados();
+            this.limpiarFormulario();
+            this.indice = 0;
+            this.llenarFormulario( this.indice );
+            
+        }else{
+        
+            
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // Falta hacer control de tamaño TODO add your handling code here:
+        if (this.indice < this.Lista.size() -1 );{
+            this.indice++; //this.indice = su valor +1
+        } else {
+            this.indice=0;
+        }
+        this.jLabel16.setText("" + this.indice);
+        llenarFormulario(indice);
+        
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void llenarFormulario(int indice){
+        if (Lista.size() > 0 ){
+            Empleado e = Lista.get(indice);
+            this.jTextField1.setText(e.getNombre());
+            this.jTextField2.setText(e.getApPaterno());
+            this.jTextField3.setText(e.getApMaterno());
+            this.jTextField4.setText("" + e.getEdad());
+            this.jTextField5.setText(e.getCurp());
+            this.jTextField6.setText(e.getDomicilio().getCalle());
+            this.jTextField7.setText(e.getDomicilio().getNumero());
+            this.jTextField8.setText(e.getDomicilio().getColonia());
+            this.jTextField9.setText(e.getDomicilio().getDelegacion());
+            this.jTextField10.setText(e.getDomicilio().getEstado());
+            this.jTextField11.setText(e.getDomicilio().getCp());
+            this.jTextField12.setText("" + e.getNumeroEmpleado());
+            this.jTextField13.setText(e.getDepartamento());
+            this.jTextField14.setText("" + e.getSueldo());
+            this.jTextField15.setText("" + e.getHorasExtras());
+        }
+    }
+    
     private void limpiarFormulario(){
       this.jTextField1.setText("");
       this.jTextField2.setText("");
@@ -569,6 +652,7 @@ public class AltaEmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
